@@ -1,0 +1,6 @@
+@BotsDemo.KnowledgeAssistant_HostAddress = http://localhost:5234
+
+GET {{BotsDemo.KnowledgeAssistant_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
