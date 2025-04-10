@@ -3,7 +3,6 @@ using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
 using Microsoft.KernelMemory;
-using Microsoft.Teams.AI.AI.Models;
 using Newtonsoft.Json.Linq;
 
 namespace BotsDemo.KnowledgeAssistant.Bots
@@ -33,7 +32,7 @@ namespace BotsDemo.KnowledgeAssistant.Bots
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            var welcomeText = "Welcome to the Simple AI Bot! I can help you with any questions. What would you like to know";
+            var welcomeText = "Welcome to the Personal Knowledge Assistant! I can help you with any questions form my knowledge base. To load any data into the knowledge base just share any files with me. What would you like to know?";
             foreach (var member in membersAdded)
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)

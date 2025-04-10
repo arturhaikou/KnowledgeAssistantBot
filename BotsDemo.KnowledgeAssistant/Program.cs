@@ -1,5 +1,4 @@
 using BotsDemo.KnowledgeAssistant.Bots;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.KernelMemory;
@@ -11,9 +10,11 @@ builder.Services.AddOpenApi();
 builder.Services.AddHttpClient();
 builder.Services.AddTransient(sp => new MemoryWebClient(builder.Configuration.GetValue<string>("KernelMemory:Host")));
 builder.Services.AddTransient<IBot, KnowledgeAssistantAIBot>();
-builder.Services.AddSingleton<IBotFrameworkHttpAdapter, CloudAdapter>();
+builder.Services.AddSingleton<IBotFrameworkHttpAdapter>(sp => new CloudAdapter(builder.Configuration));
+builder.Services.AddHttpLogging();
 var app = builder.Build();
 
+app.UseHttpLogging();
 app.MapDefaultEndpoints();
 
 if (app.Environment.IsDevelopment())
@@ -23,7 +24,5 @@ if (app.Environment.IsDevelopment())
 
 app.MapPost("/api/messages", async (IBot bot, IBotFrameworkHttpAdapter adapter, HttpContext context) 
     => await adapter.ProcessAsync(context.Request, context.Response, bot));
-
-app.MapGet("/api/healthcheck", () => "Ok");
 
 app.Run();
